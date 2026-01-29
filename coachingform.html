@@ -20,6 +20,38 @@
         -webkit-text-size-adjust: 100%;
         text-size-adjust: 100%;
       }
+      /* Avoid horizontal scrolling on this page by preventing overflow and
+         constraining the maximum width. Without this, narrow mobile screens
+         can accumulate a small horizontal scroll offset and cause steps to
+         appear off‑center when navigating the form. */
+      html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+      }
+
+      /* Checkmark indicator for selected coaching package
+         Each plan icon will display a small checkmark badge on its emoji
+         circle when selected. This provides a clear visual confirmation of
+         which package is chosen while keeping the hover/tap details unchanged. */
+      .plan-icons-grid.offer-options .plan-icon .icon-circle {
+        position: relative;
+      }
+      .plan-icons-grid.offer-options .plan-icon.selected .icon-circle::after {
+        content: '✔';
+        font-size: 0.75rem;
+        position: absolute;
+        top: -0.35rem;
+        right: -0.35rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent);
+        color: var(--light);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
       /* Additional styles for coaching form page */
       /* Define accent colors used in this page */
       :root {
@@ -966,10 +998,6 @@
       </section>
     </main>
 
-    <!-- jsPDF library to generate PDF results -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- html2canvas library for capturing DOM as image for PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
       // Newsletter success handler function to show a thank you message after form submission.
       function newsletterSuccess() {
@@ -1033,22 +1061,20 @@
         const offerOptionsEl = document.getElementById('offerOptions');
         if (offerOptionsEl) {
           const offers = offerOptionsEl.querySelectorAll('input[type="radio"]');
+          // When a radio changes (user actually selects a plan), mark it as selected
+          // but do not forcibly hide the popup. We also keep the expanded state
+          // on the chosen label so the details remain visible after selection.
           offers.forEach((radio) => {
             radio.addEventListener('change', function () {
-              // Unselect other offer labels and collapse any expanded popups
+              // Unselect and unexpand all other offer labels
               offerOptionsEl.querySelectorAll('label').forEach((lbl) => {
                 lbl.classList.remove('selected');
                 lbl.classList.remove('expanded');
               });
-              // Mark the chosen label as selected
-              this.parentElement.classList.add('selected');
-              // Hide all plan popups so the description disappears after selection
-              offerOptionsEl.querySelectorAll('.plan-popup').forEach((pop) => {
-                // Override inline styles to ensure the popup stays hidden regardless of hover
-                pop.style.opacity = '0';
-                pop.style.visibility = 'hidden';
-                pop.style.pointerEvents = 'none';
-              });
+              // Mark the chosen label as selected and keep its details expanded
+              const parentLabel = this.parentElement;
+              parentLabel.classList.add('selected');
+              parentLabel.classList.add('expanded');
             });
           });
 
@@ -1056,24 +1082,34 @@
           // Mobile/touch support for plan popup details
           //
           // On mobile there is no hover state, so we toggle an `.expanded` class
-          // on the tapped label to reveal its plan-popup. We also close any
-          // other popups when selecting a new one, and collapse all popups when
-          // clicking elsewhere on the document. This logic does not affect
-          // desktop behaviour, where hover still works due to CSS.
+          // on the tapped label to reveal its plan-popup. The first tap
+          // expands the details without selecting the radio. A second tap
+          // (when the label is already expanded) allows the radio to be selected.
+          // We also close other expanded popups when opening a new one, and
+          // collapse all popups when clicking elsewhere on the document. This
+          // logic does not affect desktop behaviour, where hover still works via CSS.
           const offerLabels = offerOptionsEl.querySelectorAll('label.plan-icon');
           offerLabels.forEach((lbl) => {
             lbl.addEventListener('click', function (e) {
-              // Prevent the global click listener from immediately closing this popup
+              // Prevent the global click listener from closing this popup
               e.stopPropagation();
-              // Remove `expanded` from other plan icons
+              // Collapse all other expanded plan icons
               offerLabels.forEach((other) => {
                 if (other !== this) other.classList.remove('expanded');
               });
-              // Toggle expanded class on this label
+              // Toggle expanded state on this label (open details or close)
               this.classList.toggle('expanded');
+              // Automatically select the corresponding radio when tapping/clicking the icon
+              const radioInput = this.querySelector('input[type="radio"]');
+              if (radioInput && !radioInput.checked) {
+                radioInput.checked = true;
+                // Dispatch a change event so any listeners update selection classes
+                const event = new Event('change', { bubbles: true });
+                radioInput.dispatchEvent(event);
+              }
             });
           });
-          // Click anywhere outside the plan icons collapses all popups
+          // Clicking anywhere outside the plan icons collapses all popups
           document.addEventListener('click', function (e) {
             if (!e.target.closest('#offerOptions .plan-icon')) {
               offerLabels.forEach((lbl) => lbl.classList.remove('expanded'));
@@ -1106,12 +1142,20 @@
             }
           });
 
-          // Automatically scroll the page to the top when switching steps so the user starts at the new question
+          // Automatically scroll to the very top of the page when switching steps so the user starts
+          // at the new question. We avoid smooth scrolling here to ensure the page instantly
+          // jumps to the top, preventing the content from remaining off‑screen when moving
+          // between steps on mobile devices.
           try {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0, 0);
           } catch (e) {
             window.scrollTo(0, 0);
           }
+          // Ensure both horizontal and vertical scroll positions are reset in all browsers
+          document.documentElement.scrollLeft = 0;
+          document.body.scrollLeft = 0;
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
         }
 
         function handleNext() {
@@ -1420,56 +1464,6 @@
           },
         };
 
-        async function generatePdfFile(data) {
-          // Build a hidden container with the form results formatted in Arabic/Darija
-          const container = document.createElement('div');
-          container.style.position = 'absolute';
-          container.style.left = '-9999px';
-          container.style.top = '-9999px';
-          container.style.width = '210mm';
-          container.style.maxWidth = '800px';
-          container.style.fontFamily = currentLang === 'ar' ? 'Tajawal, sans-serif' : 'Tajawal, sans-serif';
-          // set direction rtl for both languages for consistency in Arabic script
-          container.style.direction = 'rtl';
-          // Title
-          const titleEl = document.createElement('h2');
-          titleEl.style.textAlign = 'center';
-          titleEl.style.marginBottom = '12px';
-          titleEl.textContent = currentLang === 'ar' ? 'نتائج نموذج التدريب الشخصي' : 'نتائج نموذج التدريب الشخصي';
-          container.appendChild(titleEl);
-          // Build list of data entries
-          const list = document.createElement('div');
-          list.style.fontSize = '14px';
-          list.style.lineHeight = '1.6';
-          // each entry as paragraph
-          Object.keys(data).forEach((key) => {
-            if (!labelsForPdf[currentLang][key]) return;
-            const label = labelsForPdf[currentLang][key];
-            const value = data[key] || '';
-            const p = document.createElement('p');
-            p.textContent = `${label}: ${value}`;
-            list.appendChild(p);
-          });
-          container.appendChild(list);
-          document.body.appendChild(container);
-          // Capture using html2canvas at high resolution
-          const canvas = await html2canvas(container, { scale: 2 });
-          document.body.removeChild(container);
-          const imgData = canvas.toDataURL('image/webp');
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF('p', 'mm', 'a4');
-          const imgProps = doc.getImageProperties(imgData);
-          const pdfWidth = doc.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-          doc.addImage(imgData, 'webp', 0, 0, pdfWidth, pdfHeight);
-          const filename = data.name ? data.name.replace(/\s+/g, '_') + '_coaching_form.pdf' : 'coaching_form.pdf';
-          // Save the PDF locally for the user as well
-          doc.save(filename);
-          // Return both a data URI and a Blob for further use
-          const dataUri = doc.output('datauristring');
-          const blob = doc.output('blob');
-          return { uri: dataUri, blob: blob };
-        }
 
         // handle form submission
         form.addEventListener('submit', async function (e) {
@@ -1504,15 +1498,7 @@
           // Hide the form section while processing
           formSection.classList.add('hidden');
 
-          // Optionally generate a PDF for the user to download locally. We do not attempt
-          // to send the PDF via WhatsApp anymore because WhatsApp does not support
-          // attachments through simple URL parameters. The PDF will still download
-          // automatically in the browser when the user submits the form.
-          try {
-            await generatePdfFile(data);
-          } catch (ex) {
-            console.error('PDF generation failed', ex);
-          }
+          // (Removed PDF generation.) We do not generate or download a PDF any more.
 
           // Compose the WhatsApp message containing all answers. Include a greeting
           // and the fields with their translated labels for the selected language.
@@ -1530,8 +1516,14 @@
           });
           const fullMessage = msgIntro + details;
           const encoded = encodeURIComponent(fullMessage);
-          // Send the full message via WhatsApp (this opens a new tab/window)
-          window.open('https://wa.me/212657994110?text=' + encoded, '_blank');
+          // Send the full message via WhatsApp. Use window.open with a fallback to
+          // window.location.href to ensure mobile browsers treat this as a user-initiated
+          // navigation and do not block it as a popup.
+          const waUrl = 'https://wa.me/212657994110?text=' + encoded;
+          const waWin = window.open(waUrl, '_blank');
+          if (!waWin) {
+            window.location.href = waUrl;
+          }
           // Hide the loading section and show the thank you message
           if (loadingSection) {
             loadingSection.classList.add('hidden');
