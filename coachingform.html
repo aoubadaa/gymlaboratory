@@ -14,6 +14,12 @@
     <!-- Base site styles -->
     <link rel="stylesheet" href="style.css" />
     <style>
+      /* Prevent iOS Safari auto-zoom and font boosting on mobile */
+      /* Ensure text size adjusts normally and inputs have at least 16px font to avoid zooming when tapped */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
       /* Additional styles for coaching form page */
       /* Define accent colors used in this page */
       :root {
@@ -76,6 +82,8 @@
         border-radius: 8px;
         border: 1px solid rgba(10, 116, 166, 0.3);
         font-family: inherit;
+        /* Set a minimum font size to prevent mobile browsers from zooming */
+        font-size: 16px;
       }
       .form-group textarea {
         resize: vertical;
