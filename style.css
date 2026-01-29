@@ -1,0 +1,3371 @@
+:root {
+  --primary-bg: #d3eaee;
+  --secondary-bg: #f0f4f5;
+  --dark: #1b1b1b;
+  --light: #ffffff;
+
+  --font-heading: "Cairo", sans-serif;
+  --font-body: "Tajawal", sans-serif;
+
+  --h1: #016d9c;
+  --h2: #3795bb;
+
+  /* Dark mode colors */
+  --dark-bg: #0c1c23;
+  --dark-secondary: #112d39;
+  --dark-card: #163847;
+  --dark-text: #e7f6fc;
+  --dark-accent: #57a7c9;
+}
+
+/* ===== Coaching Form Enhancements ===== */
+/* Style for progress bar track */
+.progressbar {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  counter-reset: step;
+  /* Arrange the steps in their natural order. The HTML sets `direction: rtl` on the
+     progress bar container so that step 1 appears on the right in Arabic layouts. */
+  flex-direction: row;
+  /* Remove connecting line between steps in light mode; the track will only show
+     progress via the coloured bar. */
+}
+
+/* hide the connecting track in both light and dark modes */
+.progressbar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: transparent;
+  z-index: -1;
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+
+/* progress indicator line; set height to 0 so only the filled circles show progress */
+.progress {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 0;
+  background: var(--accent);
+  transform: translateY(-50%);
+  z-index: 0;
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.progress-step {
+  width: 34px;
+  height: 34px;
+  background: var(--secondary-bg);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  color: var(--h1);
+  font-weight: 700;
+  border: 2px solid var(--h1);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.progress-step::before {
+  /* Display the step number from the data-title attribute */
+  content: attr(data-title);
+}
+
+.progress-step.progress-step-active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* Dark mode adjustments for progress bar */
+body.dark .progress-step {
+  background: var(--dark-secondary);
+  color: var(--dark-accent);
+  border-color: var(--dark-accent);
+}
+
+body.dark .progress-step.progress-step-active {
+  background: var(--dark-accent);
+  color: var(--dark-bg);
+  border-color: var(--dark-accent);
+}
+
+body.dark .progressbar::before {
+  background: transparent;
+}
+
+body.dark .progress {
+  background: var(--dark-accent);
+  height: 0;
+}
+
+/* Body shape image options */
+.body-shape-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.6rem;
+}
+
+.body-shape-options label {
+  border: 2px solid rgba(55, 149, 187, 0.4);
+  border-radius: 12px;
+  /* Remove overflow clipping so the full image can be displayed without cropping */
+  overflow: visible;
+  cursor: pointer;
+  display: block;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.body-shape-options label.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(55, 149, 187, 0.25);
+}
+
+.body-shape-options input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.body-shape-options img {
+  width: 100%;
+  /* Allow the image to scale naturally so the full original is visible without cropping */
+  height: auto;
+  /* Increase the maximum height so the entire original image is visible without being overly cropped */
+  max-height: 280px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* Body shape title below image */
+.body-shape-title {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--h1);
+}
+
+body.dark .body-shape-title {
+  color: var(--dark-accent);
+}
+
+/* Body fat chart image styling */
+.bodyfat-chart {
+  width: 100%;
+  /* Remove fixed max-height so the full chart is visible */
+  max-height: none;
+  /* Use contain so the entire chart remains within its container without cropping */
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved checkbox group styling */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.checkbox-group label {
+  background: var(--light);
+  border: 1px solid rgba(55, 149, 187, 0.3);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox-group input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--h1);
+  border-radius: 4px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.checkbox-group input[type="checkbox"]::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: var(--accent);
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+
+.checkbox-group input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+  border-color: var(--accent);
+}
+
+.checkbox-group label:hover {
+  background: rgba(55, 149, 187, 0.1);
+}
+
+body.dark .checkbox-group label {
+  background: var(--dark-secondary);
+  border-color: rgba(87, 167, 201, 0.3);
+}
+
+body.dark .checkbox-group input[type="checkbox"] {
+  border-color: var(--dark-accent);
+}
+
+body.dark .checkbox-group input[type="checkbox"]:checked {
+  border-color: var(--dark-accent);
+}
+
+body.dark .checkbox-group input[type="checkbox"]::before {
+  background-color: var(--dark-accent);
+}
+
+/* Hide elements that should not be visible */
+.hidden {
+  display: none !important;
+}
+
+body.dark .checkbox-group label:hover {
+  background: rgba(87, 167, 201, 0.15);
+}
+
+/* Offer selection pill buttons */
+.offer-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+}
+
+.offer-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border: 2px solid rgba(55, 149, 187, 0.4);
+  border-radius: 30px;
+  background: var(--secondary-bg);
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--h1);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.offer-option .offer-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.offer-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.offer-option.selected {
+  border-color: var(--accent);
+  background: rgba(55, 149, 187, 0.15);
+  color: var(--accent);
+}
+
+/* Dark mode styles for offer buttons */
+body.dark .offer-option {
+  background: var(--dark-secondary);
+  border-color: rgba(87, 167, 201, 0.4);
+  color: var(--dark-accent);
+}
+
+body.dark .offer-option.selected {
+  background: var(--dark-accent);
+  /* Ensure selected offer text remains visible on dark mode; we set a contrasting text colour
+     on the accent background. */
+  color: var(--dark-bg);
+  border-color: var(--dark-accent);
+}
+
+/* When an offer option is selected in dark mode, override the label and emoji colour to ensure
+   they remain visible on the accent-coloured background. Without this, nested plan-label and
+   icon-emoji elements retain their default accent colour, which can blend into the background. */
+body.dark .offer-option.selected .plan-label,
+body.dark .offer-option.selected .icon-emoji {
+  color: var(--dark-bg);
+}
+
+/* When a plan icon (in the index or elsewhere) is expanded via JS to show its popup,
+   use a dark text colour on the accent background so the label and emoji remain
+   clearly visible in dark mode. This mirrors the behaviour for selected offer options. */
+body.dark .plan-icon.expanded .plan-label,
+body.dark .plan-icon.expanded .icon-emoji {
+  color: var(--dark-bg);
+}
+
+/* Dark mode styling for form fields inside the coaching form */
+body.dark #form-section input,
+body.dark #form-section select,
+body.dark #form-section textarea {
+  background: var(--dark-secondary);
+  color: var(--dark-text);
+  border-color: rgba(87, 167, 201, 0.3);
+}
+
+body.dark #form-section label {
+  color: var(--dark-text);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.8;
+  color: var(--dark);
+  background: var(--secondary-bg);
+}
+
+/* Dark mode styles */
+body.dark {
+  color: var(--dark-text);
+  background: var(--dark-bg);
+}
+
+body.dark .site-header {
+  background: rgba(17, 45, 57, 0.9);
+  border-bottom: 1px solid rgba(87, 167, 201, 0.2);
+}
+
+body.dark .nav-link {
+  color: var(--dark-text);
+}
+
+body.dark .nav-link.active,
+body.dark .nav-link[aria-current="page"] {
+  background: rgba(87, 167, 201, 0.25);
+  border: 1px solid rgba(87, 167, 201, 0.5);
+}
+
+body.dark .cta-btn,
+body.dark .newsletter button {
+  background: var(--dark-accent);
+  color: #0c1c23;
+}
+
+body.dark .cta-btn:hover,
+body.dark .newsletter button:hover {
+  background: var(--h2);
+  color: #fff;
+}
+
+body.dark .footer-card,
+body.dark .ebook-wrapper,
+body.dark .online-wrapper,
+body.dark .blog-grid {
+  background: var(--dark-card);
+  border-color: rgba(87, 167, 201, 0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+/* Ensure the horizontal blog slider matches the dark theme.
+   The default blog slider uses a light background and light border to
+   distinguish it on the page. In dark mode this causes the white text and
+   icons to become invisible on white backgrounds. Override its surface
+   colours to a dark card and adjust its border and shadow for proper contrast. */
+body.dark .blog-slider {
+  background: var(--dark-card);
+  /* Mirror the one‑pixel border used in light mode with a dark‑themed colour */
+  border: 1px solid rgba(87, 167, 201, 0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .blog-card {
+  background: var(--dark-secondary);
+}
+
+body.dark .footer-links a,
+body.dark .footer-muted {
+  color: var(--dark-text);
+}
+
+body.dark .footer-pill {
+  background: rgba(87, 167, 201, 0.2);
+  border-color: rgba(87, 167, 201, 0.35);
+  color: var(--dark-text);
+}
+
+body.dark .footer-backtop {
+  color: var(--dark-accent);
+}
+
+body.dark .newsletter input {
+  background: rgba(87, 167, 201, 0.15);
+  border-color: rgba(87, 167, 201, 0.3);
+  color: var(--dark-text);
+}
+
+body.dark .divider {
+  background: var(--dark-bg);
+}
+
+body.dark .scroll-text {
+  color: var(--dark-accent);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ✅ يمنع السكروول يدخل تحت الهيدر */
+.spy-section {
+  scroll-margin-top: 90px;
+}
+
+/* ================= HEADER ================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(1, 109, 156, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0;
+  gap: 1rem;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(-15deg);
+}
+
+.theme-toggle:focus {
+  outline: none;
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--h1);
+  letter-spacing: 0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--h1);
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+  background: rgba(211, 234, 238, 0.85);
+  transform: translateY(-1px);
+}
+
+/* ✅ Active pill */
+.nav-link.active,
+.nav-link[aria-current="page"] {
+  background: rgba(55, 149, 187, 0.18);
+  border: 1px solid rgba(55, 149, 187, 0.45);
+}
+
+/* ================= HERO ================= */
+.hero {
+  background: var(--primary-bg);
+  padding: 4.2rem 0;
+}
+
+/* Floating animation for hero image */
+.hero-image img {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.2rem;
+}
+
+.hero-text {
+  flex: 1 1 45%;
+}
+
+.hero-tagline {
+  color: var(--h2);
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 5vw, 3.7rem);
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--h1);
+  margin-bottom: 0.8rem;
+}
+
+.hero-subtitle {
+  color: var(--h2);
+  max-width: 450px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.hero-image {
+  flex: 1 1 45%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: min(520px, 92%);
+  height: auto;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.12));
+}
+
+/* Buttons */
+.cta-btn {
+  display: inline-block;
+  padding: 0.85rem 1.5rem;
+  background: var(--h1);
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 900;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+/* Ghost button (outline style) */
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.2rem;
+  border-radius: 12px;
+  border: 2px solid var(--h1);
+  background: transparent;
+  color: var(--h1);
+  font-weight: 900;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.ghost-btn:hover {
+  background: rgba(55, 149, 187, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Ebook preview button icon/text adjustments */
+.ghost-btn .btn-icon {
+  font-size: 1.2rem;
+  margin-left: 0.35rem;
+}
+
+.ghost-btn .btn-text {
+  font-size: 1rem;
+}
+
+body.dark .ghost-btn {
+  border-color: var(--dark-accent);
+  color: var(--dark-accent);
+}
+
+body.dark .ghost-btn:hover {
+  background: rgba(87, 167, 201, 0.25);
+}
+
+/* Ebook actions row */
+.ebook-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+
+.cta-btn:hover {
+  background: var(--h2);
+  transform: translateY(-1px);
+}
+
+/* Specific styling for the coaching call‑to‑action */
+.online-section .online-cta {
+  /* Provide extra margin to separate from the paragraph */
+  margin-top: 1.2rem;
+  font-size: 1.05rem;
+}
+
+.online-section .online-cta:hover {
+  /* Slightly lift and scale for a more engaging hover effect */
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* ================= DIVIDER ================= */
+.divider {
+  position: relative;
+  background: var(--primary-bg);
+  height: 80px;
+  overflow: hidden;
+  transform: skewY(-5deg);
+  margin-top: -40px;
+  margin-bottom: -40px;
+}
+
+.scroll-text {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  white-space: nowrap;
+  animation: scroll 20s linear infinite;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ================= SECTIONS ================= */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  color: var(--h2);
+}
+
+/* Ebook card */
+.ebook-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background: var(--light);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+}
+
+body.dark .ebook-card {
+  background: var(--dark-card);
+  border-color: rgba(87, 167, 201, 0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.ebook-info {
+  flex: 1 1 55%;
+}
+
+.ebook-cover {
+  flex: 1 1 40%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ebook-cover img {
+  width: min(300px, 100%);
+  height: auto;
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.cover-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.4);
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: radial-gradient(circle at center, rgba(55, 149, 187, 0.5), transparent 70%);
+  filter: blur(40px);
+  z-index: 1;
+}
+
+/* Ebook badges */
+.ebook-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.badge {
+  background: rgba(55, 149, 187, 0.15);
+  border: 1px solid rgba(55, 149, 187, 0.35);
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--h1);
+}
+
+body.dark .badge {
+  background: rgba(87, 167, 201, 0.25);
+  border-color: rgba(87, 167, 201, 0.5);
+  color: var(--dark-text);
+}
+
+
+/* Ebook language switch */
+.ebook-lang {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 14px;
+  background: rgba(55, 149, 187, 0.08);
+  border: 1px solid rgba(55, 149, 187, 0.18);
+}
+
+body.dark .ebook-lang {
+  background: rgba(87, 167, 201, 0.12);
+  border-color: rgba(87, 167, 201, 0.25);
+}
+
+.ebook-lang-title {
+  font-weight: 900;
+  color: var(--h1);
+  margin-bottom: 0.7rem;
+  line-height: 1.7;
+}
+
+body.dark .ebook-lang-title {
+  color: var(--dark-accent);
+}
+
+.lang-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.lang-btn {
+  border: 1px solid rgba(55, 149, 187, 0.28);
+  background: rgba(55, 149, 187, 0.12);
+  color: var(--h1);
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.lang-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(55, 149, 187, 0.18);
+}
+
+.lang-btn.active {
+  background: var(--h1);
+  color: #fff;
+  border-color: var(--h1);
+}
+
+body.dark .lang-btn {
+  border-color: rgba(87, 167, 201, 0.35);
+  background: rgba(87, 167, 201, 0.15);
+  color: var(--dark-text);
+}
+
+body.dark .lang-btn.active {
+  background: var(--dark-accent);
+  color: #0c1c23;
+  border-color: var(--dark-accent);
+}
+
+.ebook-lang-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  color: #1f3f4a;
+  line-height: 1.7;
+}
+
+body.dark .ebook-lang-hint {
+  color: var(--dark-text);
+}
+
+/* Ebook tabs */
+.ebook-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  background: rgba(55, 149, 187, 0.1);
+  border: 1px solid rgba(55, 149, 187, 0.25);
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-family: var(--font-body);
+  cursor: pointer;
+  color: var(--h1);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.tab-btn:hover {
+  background: rgba(55, 149, 187, 0.25);
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: var(--h1);
+  color: #fff;
+  border-color: var(--h1);
+}
+
+body.dark .tab-btn {
+  background: rgba(87, 167, 201, 0.15);
+  border-color: rgba(87, 167, 201, 0.3);
+  color: var(--dark-text);
+}
+
+body.dark .tab-btn.active {
+  background: var(--dark-accent);
+  color: #0c1c23;
+  border-color: var(--dark-accent);
+}
+
+.tab-panels {
+  margin-top: 0.5rem;
+}
+
+.tab-panel {
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-box {
+  position: relative;
+  background: var(--light);
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+body.dark .modal-box {
+  background: var(--dark-card);
+}
+
+.modal-x {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--h1);
+  margin-bottom: 0.8rem;
+}
+
+.modal-text {
+  color: #1f3f4a;
+  margin-bottom: 1.2rem;
+  line-height: 1.8;
+}
+
+body.dark .modal-title {
+  color: var(--dark-accent);
+}
+
+body.dark .modal-text {
+  color: var(--dark-text);
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.modal-item {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  background: rgba(55, 149, 187, 0.1);
+  padding: 0.8rem;
+  border-radius: 12px;
+}
+
+body.dark .modal-item {
+  background: rgba(87, 167, 201, 0.2);
+}
+
+.modal-icon {
+  font-size: 1.6rem;
+}
+
+.modal-cta {
+  display: block;
+  margin-top: 1.4rem;
+  text-align: center;
+}
+
+/* Table of contents lists inside the modal */
+.toc-list {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc-list li {
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  position: relative;
+  padding-right: 1.1rem;
+}
+
+/* Add custom bullet for RTL lists */
+.toc-list li::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  color: var(--h1);
+}
+
+/* The intensity slider styles were removed as the online section now directly displays the call‑to‑action. */
+
+/* Reveal animations */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.revealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Slide specific directions */
+[data-animate="slide-in-right"] {
+  transform: translateX(40px);
+}
+
+[data-animate="slide-in-left"] {
+  transform: translateX(-40px);
+}
+
+[data-animate="fade-in"] {
+  transform: translateY(20px);
+}
+
+[data-animate="slide-up"] {
+  transform: translateY(40px);
+}
+
+/* Back-to-top button */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--h1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1500;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  transform: translateY(-3px);
+}
+
+body.dark .back-to-top {
+  background: var(--dark-accent);
+  color: #0c1c23;
+}
+
+/* eBook & Online */
+.ebook-section,
+.online-section {
+  background: var(--secondary-bg);
+  padding: 4rem 0;
+}
+
+.ebook-wrapper,
+.online-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  background: var(--light);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+}
+
+.ebook-image,
+.online-image {
+  flex: 1 1 40%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ✅ Ebook image only (ماكيأثرش على online) */
+.ebook-image img {
+  width: min(320px, 100%);
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* ✅ Online image stays normal */
+.online-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.ebook-content,
+.online-content {
+  flex: 1 1 50%;
+}
+
+.ebook-description,
+.online-description {
+  font-size: 1rem;
+  color: #1f3f4a;
+  line-height: 1.9;
+}
+
+/* When dark mode is active, override the description colors so they remain legible */
+body.dark .ebook-description,
+body.dark .online-description {
+  color: var(--dark-text);
+}
+
+/* Highlight links within the online description */
+.online-description a {
+  color: var(--h2);
+  text-decoration: underline;
+}
+
+/* Use a brighter accent color for links when dark mode is active */
+body.dark .online-description a,
+body.dark .ebook-description a {
+  color: var(--dark-accent);
+}
+
+/* ================= BLOG ================= */
+.blog-section {
+  background: var(--secondary-bg);
+  padding: 4rem 0;
+}
+
+/* The blog-grid is used for traditional grid layouts on the dedicated blog page.
+   It remains unchanged for pages other than the index slider. */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  background: var(--light);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+}
+
+/* Slider wrapper positions the navigation arrows relative to the carousel */
+.blog-slider-wrapper {
+  position: relative;
+  /* provide spacing for arrows */
+  padding: 0 3rem;
+}
+
+/* Horizontal slider style for index page */
+.blog-slider {
+  /* override grid display from .blog-grid when both classes are present */
+  display: flex !important;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 2rem;
+  background: var(--light);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+  /* keep ltr direction for slider so arrows work consistently */
+  direction: ltr;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide default scrollbar for WebKit browsers */
+.blog-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* Each blog card in slider should snap to start */
+.blog-slider .blog-card {
+  flex: 0 0 80%;
+  max-width: 360px;
+  scroll-snap-align: start;
+}
+
+/* ================= FREE GUIDES ================= */
+.guides-section {
+  background: var(--secondary-bg);
+  padding: 4rem 0;
+}
+body.dark .guides-section {
+  background: var(--dark-bg);
+}
+
+.guides-intro {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #1f3f4a;
+}
+body.dark .guides-intro {
+  color: var(--dark-text);
+}
+
+.guides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  background: var(--light);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+}
+body.dark .guides-grid {
+  background: var(--dark-card);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.guide-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.guide-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+body.dark .guide-card {
+  background: var(--dark-secondary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+body.dark .guide-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.guide-img-wrapper img {
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.guide-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: var(--h1);
+}
+body.dark .guide-title {
+  color: var(--dark-accent);
+}
+
+.guide-description {
+  flex-grow: 1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #1f3f4a;
+  margin-bottom: 1rem;
+}
+body.dark .guide-description {
+  color: var(--dark-text);
+}
+
+.guide-download {
+  margin-top: auto;
+}
+
+/* === Guides Slider (Free Guides Section) === */
+.guides-slider-wrapper {
+  position: relative;
+  /* Provide spacing for arrow buttons */
+  padding: 0 3rem;
+  margin-top: 2rem;
+}
+
+/* Horizontal slider container */
+.guides-slider {
+  display: flex !important;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 2rem;
+  background: var(--light);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+  direction: ltr;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Dark mode variant for slider */
+body.dark .guides-slider {
+  background: var(--dark-card);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide default scrollbar for WebKit browsers */
+.guides-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* Guide card sizing within slider */
+.guides-slider .guide-card {
+  flex: 0 0 90%;
+  max-width: 320px;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .guides-slider .guide-card {
+    flex: 0 0 45%;
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .guides-slider .guide-card {
+    flex: 0 0 30%;
+    max-width: 300px;
+  }
+}
+
+/* Navigation arrows for the guides slider */
+.guides-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  background: var(--dark-accent);
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.guides-nav:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.guides-prev {
+  left: 0;
+  right: auto;
+}
+
+.guides-next {
+  right: 0;
+  left: auto;
+}
+
+@media (min-width: 768px) {
+  .blog-slider .blog-card {
+    flex: 0 0 45%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .blog-slider .blog-card {
+    flex: 0 0 30%;
+  }
+}
+
+/* Slider navigation buttons */
+.blog-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: none;
+  background: var(--dark-accent);
+  color: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.blog-nav:hover {
+  opacity: 1;
+}
+
+/* Position of previous and next arrows */
+.blog-prev {
+  right: auto;
+  left: 0;
+}
+
+.blog-next {
+  left: auto;
+  right: 0;
+}
+
+.blog-card {
+  background: var(--secondary-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+body.dark .blog-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.blog-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ================= BMR Calculator ================= */
+.bmr-section {
+  background: var(--secondary-bg);
+  padding: 4rem 0;
+}
+
+.bmr-wrapper {
+  background: var(--light);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.bmr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bmr-description {
+  font-size: 1rem;
+  color: #1f3f4a;
+  line-height: 1.8;
+}
+body.dark .bmr-description {
+  color: var(--dark-text);
+}
+
+.bmr-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.bmr-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.bmr-form label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--h1);
+}
+
+.bmr-form input,
+.bmr-form select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(1, 109, 156, 0.3);
+  font-size: 0.95rem;
+  background: var(--secondary-bg);
+  color: var(--dark);
+}
+
+.bmr-form input:focus,
+.bmr-form select:focus {
+  outline: none;
+  border-color: var(--h2);
+  box-shadow: 0 0 0 2px rgba(55, 149, 187, 0.2);
+}
+
+.bmr-form .cta-btn {
+  grid-column: span 2;
+  width: 100%;
+  text-align: center;
+}
+
+/* Redefine the result container to be more modular and appealing */
+/* BMR result container */
+.bmr-result {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Card styling for each result */
+.bmr-result .result-card {
+  /* Use a slightly different background than the wrapper to make cards stand out */
+  background: var(--secondary-bg);
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(1, 109, 156, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Header containing icon and title */
+.result-card .result-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.result-card .result-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.result-card .result-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--h2);
+}
+
+/* Progress bar container */
+.result-card .result-bar {
+  position: relative;
+  height: 12px;
+  border-radius: 6px;
+  background: rgba(1, 109, 156, 0.1);
+  overflow: hidden;
+}
+
+/* Progress bar fill with transition for animation */
+.result-card .result-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 6px;
+  background: linear-gradient(to left, var(--h2), var(--h1));
+  transition: width 1.2s ease-in-out;
+}
+
+/* Number display below bar */
+.result-card .result-number {
+  margin-top: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--h1);
+}
+
+.result-card .unit {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--h2);
+  margin-left: 0.25rem;
+}
+
+/* Dark mode adjustments for BMR calculator */
+body.dark .bmr-section {
+  background: var(--dark-bg);
+}
+
+body.dark .bmr-wrapper {
+  background: var(--dark-card);
+  border-color: rgba(87, 167, 201, 0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .bmr-form input,
+body.dark .bmr-form select {
+  background: rgba(87, 167, 201, 0.15);
+  border-color: rgba(87, 167, 201, 0.3);
+  color: var(--dark-text);
+}
+
+body.dark .bmr-form label {
+  color: var(--dark-accent);
+}
+
+body.dark .bmr-result .result-card {
+  background: var(--dark-secondary);
+  border-color: rgba(87, 167, 201, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+body.dark .bmr-result .result-header .result-title {
+  color: var(--dark-accent);
+}
+
+body.dark .bmr-result .result-number,
+body.dark .bmr-result .unit {
+  color: var(--dark-text);
+}
+
+body.dark .bmr-result .result-bar {
+  background: rgba(87, 167, 201, 0.15);
+}
+
+body.dark .bmr-result .result-bar-fill {
+  background: linear-gradient(to left, var(--dark-accent), var(--h2));
+}
+
+@media (max-width: 600px) {
+  .bmr-form {
+    grid-template-columns: 1fr;
+  }
+  .bmr-form .cta-btn {
+    grid-column: span 1;
+  }
+}
+
+/* Constrain blog card image height and cover area */
+/* Blog image wrapper: set a default height for desktop and adjust for mobile via media queries.
+   Using a smaller height on mobile helps prevent low-resolution images from being stretched and
+   maintains better perceived quality. */
+.blog-img-wrapper {
+  /* Remove fixed height to allow images to maintain their natural aspect ratio */
+  /* The container will naturally adjust based on the intrinsic ratio of the image */
+  overflow: hidden;
+}
+
+/* Adjust blog images to maintain their aspect ratio and avoid zooming or cropping on any screen size */
+.blog-img-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.blog-title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  margin: 1rem;
+  color: var(--h1);
+  font-weight: 900;
+}
+
+.blog-description {
+  margin: 0 1rem 1.5rem;
+  color: #1f3f4a;
+  line-height: 1.8;
+  flex-grow: 1;
+}
+
+.read-more {
+  align-self: flex-start;
+  margin: 0 1rem 1rem;
+  font-weight: 900;
+  color: var(--h2);
+  text-decoration: underline;
+}
+
+/* ================= DARK MODE: BLOG ================= */
+/* Adjust blog colors when dark mode is active so text remains legible and links stand out */
+body.dark .blog-title {
+  color: var(--dark-accent);
+}
+
+body.dark .blog-description {
+  color: var(--dark-text);
+}
+
+body.dark .read-more {
+  color: var(--dark-accent);
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+  background: var(--secondary-bg);
+  padding: 3.5rem 0 2rem;
+}
+
+body.dark .site-footer {
+  background: var(--dark-bg);
+}
+
+/* ================= BLOG ARTICLE ================= */
+/* Article page layout for individual blog posts */
+.article-section {
+  background: var(--secondary-bg);
+  padding: 4rem 0;
+}
+body.dark .article-section {
+  background: var(--dark-bg);
+}
+
+
+.article-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--light);
+  border-radius: 14px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+}
+
+.article-title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--h1);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.article-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+/* ✅ Make inline article figures smaller (without affecting the main hero image) */
+.article-container > img.article-image {
+  width: 100%;
+  height: auto;
+}
+
+.article-figure {
+  margin: 1.2rem auto 1.6rem;
+  text-align: center;
+}
+
+.article-figure img.article-image {
+  width: min(520px, 100%);
+  max-height: 340px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0.6rem;
+  object-fit: contain;
+}
+
+.article-figure figcaption {
+  font-size: 0.95rem;
+  color: #4b6a75;
+}
+
+body.dark .article-figure figcaption {
+  color: rgba(231, 246, 252, 0.85);
+}
+
+
+.article-body p {
+  margin-bottom: 1.2rem;
+  color: #1f3f4a;
+  line-height: 1.9;
+}
+
+.back-to-blog {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: var(--h2);
+  font-weight: 900;
+  text-decoration: underline;
+}
+
+/* Dark mode overrides for article pages */
+body.dark .article-container {
+  background: var(--dark-secondary);
+  border-color: rgba(87, 167, 201, 0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
+}
+
+body.dark .article-title {
+  color: var(--dark-accent);
+}
+
+body.dark .article-body p {
+  color: var(--dark-text);
+}
+
+body.dark .back-to-blog {
+  color: var(--dark-accent);
+}
+
+/* ========= BLOG HERO AND CONTROLS ========= */
+.blog-hero {
+  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+  padding: 4rem 0 2rem;
+}
+
+body.dark .blog-hero {
+  background: linear-gradient(135deg, var(--dark-bg), var(--dark-secondary));
+}
+
+.blog-hero .hero-text {
+  text-align: center;
+}
+
+.blog-hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  color: var(--h1);
+  font-weight: 900;
+  margin: 0.5rem 0 0.8rem;
+}
+
+body.dark .blog-hero-title {
+  color: var(--dark-accent);
+}
+
+/* Ensure the hero text container is centered and has a reasonable width */
+.blog-hero .hero-text {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Adjust the tagline and subtitle inside the blog hero */
+.blog-hero .hero-tagline {
+  margin-bottom: 0.6rem;
+  display: block;
+  font-weight: 800;
+}
+.blog-hero .hero-subtitle {
+  display: block;
+  max-width: 700px;
+  margin: 0.5rem auto 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--h2);
+  font-weight: 600;
+}
+
+body.dark .blog-hero .hero-subtitle {
+  color: var(--dark-accent);
+}
+
+/* Search bar and category filters */
+.blog-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+}
+
+#blogSearch {
+  flex: 1 1 55%;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(1, 109, 156, 0.2);
+  background: var(--light);
+  color: var(--dark);
+}
+
+#blogSearch::placeholder {
+  color: #777;
+}
+
+body.dark #blogSearch {
+  background: var(--dark-secondary);
+  color: var(--dark-text);
+  border-color: rgba(87, 167, 201, 0.25);
+}
+
+body.dark #blogSearch::placeholder {
+  color: rgba(231, 246, 252, 0.7);
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-btn {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(55, 149, 187, 0.35);
+  border-radius: 999px;
+  background: rgba(55, 149, 187, 0.15);
+  color: var(--h1);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.category-btn:hover {
+  background: rgba(55, 149, 187, 0.25);
+  transform: translateY(-2px);
+}
+
+.category-btn.active {
+  background: rgba(55, 149, 187, 0.35);
+  border-color: rgba(55, 149, 187, 0.6);
+}
+
+body.dark .category-btn {
+  background: rgba(87, 167, 201, 0.15);
+  border-color: rgba(87, 167, 201, 0.3);
+  color: var(--dark-text);
+}
+
+body.dark .category-btn.active {
+  background: rgba(87, 167, 201, 0.35);
+  border-color: rgba(87, 167, 201, 0.6);
+}
+
+/* Blog card actions */
+.blog-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 1rem 1rem;
+}
+
+.like-btn,
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--h2);
+  transition: transform 0.2s ease;
+}
+
+.like-btn .like-icon,
+.share-btn .share-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.like-btn:hover,
+.share-btn:hover {
+  transform: translateY(-2px);
+}
+
+.like-btn.liked .like-icon {
+  color: #e53935;
+}
+
+body.dark .like-btn,
+body.dark .share-btn {
+  color: var(--dark-accent);
+}
+
+body.dark .like-btn.liked .like-icon {
+  color: #e53935;
+}
+
+/* .like-count styles removed as we no longer display like counts */
+
+/* ================ ONLINE PLANS ICONS ================ */
+/* Container for the plans, note and CTA in the online section */
+.online-plans {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Grid layout for the icons */
+.plan-icons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.6rem;
+  margin-top: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+/* Base styling for each plan icon */
+/*
+  The plan icons are designed as small horizontal pills that contain an emoji and
+  the plan label. The entire pill has a soft coloured background and border
+  derived from the site accent colours. On hover or keyboard focus the pill
+  lifts slightly and the colour becomes a little richer. This layout allows
+  the emoji and label to sit side‑by‑side, improving legibility over the
+  previous vertical stack. The plan popup (see below) remains positioned
+  relative to the icon element and will still appear on hover/tap.
+*/
+.plan-icon {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  position: relative;
+  /* Set a base stacking context for each plan icon. Without an explicit z‑index
+     the following icons may overlap the previous icon's popup on mobile devices. */
+  z-index: 1;
+  padding: 0.55rem 1rem;
+  border-radius: 2rem;
+  /* More pronounced coloured pill and border for light mode */
+  background: rgba(55, 149, 187, 0.4);
+  border: 1px solid rgba(55, 149, 187, 0.6);
+  transition: transform 0.25s ease, background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Lift and enrich colour on hover/focus */
+.plan-icon:hover,
+.plan-icon:focus-within {
+  transform: translateY(-4px);
+  background: rgba(55, 149, 187, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* Increase stacking order of an active (expanded or focused) plan icon so that
+   its popup appears above adjacent plan icons. */
+.plan-icon.expanded,
+.plan-icon:focus-within {
+  z-index: 2;
+}
+
+/* Circle that holds the emoji */
+.icon-circle {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: rgba(55, 149, 187, 0.25);
+  display: flex;
+  /* Align the illustration to the top so there is no gap above the image */
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-circle .icon-emoji {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+/* Plan label without its own pill — the pill is now the entire icon */
+.plan-label {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--h1);
+}
+
+/* Popup details */
+.plan-popup {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  right: 50%;
+  transform: translateX(50%) translateY(10px);
+  width: 17rem;
+  background: var(--light);
+  border: 2px solid rgba(1, 109, 156, 0.15);
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  text-align: right;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  /* Raise z‑index so that plan popups appear above other content (e.g. subsequent pills) */
+  z-index: 2600;
+}
+
+/* Show popup on focus or when expanded by script (for both mobile and desktop) */
+.plan-icon:focus-within .plan-popup,
+.plan-icon.expanded .plan-popup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Show popup on hover only on devices that support hover. Avoid sticky hover on touch devices. */
+@media (hover: hover) {
+  .plan-icon:hover .plan-popup {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(50%) translateY(0);
+    pointer-events: auto;
+  }
+}
+
+.plan-popup h3 {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--h1);
+  margin-bottom: 0.4rem;
+}
+
+.plan-price {
+  margin-bottom: 0.3rem;
+}
+
+.plan-price span {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--h2);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Responsive behaviour for plan popups and icons on small screens */
+@media (max-width: 600px) {
+  /* Use nearly full width for popups on narrow screens and align them to the document direction.
+     The original position uses right:50% translation which causes overflow on mobile. */
+  .plan-popup {
+    width: 90vw;
+    right: 0;
+    left: auto;
+    transform: translateY(10px);
+  }
+  /* When the popup is shown (via hover or expanded class), slide it up in place */
+  .plan-icon:hover .plan-popup,
+  .plan-icon.expanded .plan-popup {
+    transform: translateY(0);
+  }
+  /* Stack plan icons vertically for better tap targets on mobile */
+  .plan-icons-grid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .plan-icons-grid .plan-icon {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/*
+ * Improve opacity and legibility of plan details popups on the home page.
+ * In mobile view, the plan popups appeared semi‑transparent so the next plan
+ * icon showed through. Here we enforce a solid background colour for the
+ * popups within the online section. We provide both light and dark mode
+ * backgrounds explicitly to ensure consistent appearance.
+ */
+@media (max-width: 600px) {
+  /* Light mode (default) background for popups */
+  #online .plan-popup {
+    background: var(--light);
+  }
+  /* Dark mode background for popups */
+  body.dark #online .plan-popup {
+    background: var(--dark-card);
+  }
+}
+
+.plan-price small {
+  font-size: 0.75rem;
+  color: var(--h1);
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.plan-features li {
+  position: relative;
+  padding-right: 1.3rem;
+  margin-bottom: 0.35rem;
+  color: #1f3f4a;
+  line-height: 1.6;
+}
+
+.plan-features li::before {
+  content: '•';
+  position: absolute;
+  right: 0;
+  top: 0.1rem;
+  color: var(--h2);
+  font-size: 1.1rem;
+}
+
+.plan-note {
+  font-size: 0.95rem;
+  margin-top: -1rem;
+  margin-bottom: 1.2rem;
+  color: #1f3f4a;
+  font-weight: 500;
+}
+
+/* Dark mode overrides for plan icons */
+/* Dark mode overrides for plan icons */
+body.dark .plan-icon {
+  /* More pronounced coloured pill and border for dark mode */
+  background: rgba(87, 167, 201, 0.5);
+  border-color: rgba(87, 167, 201, 0.65);
+}
+
+body.dark .plan-icon:hover,
+body.dark .plan-icon:focus-within {
+  background: rgba(87, 167, 201, 0.6);
+}
+
+body.dark .icon-circle {
+  background: rgba(87, 167, 201, 0.35);
+}
+
+body.dark .plan-label {
+  color: var(--dark-accent);
+}
+
+body.dark .plan-popup {
+  background: var(--dark-secondary);
+  border-color: rgba(87, 167, 201, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
+}
+
+body.dark .plan-popup h3 {
+  color: var(--dark-accent);
+}
+
+body.dark .plan-price span {
+  color: var(--dark-accent);
+}
+
+body.dark .plan-price small,
+body.dark .plan-features li {
+  color: var(--dark-text);
+}
+
+body.dark .plan-features li::before {
+  color: var(--dark-accent);
+}
+
+body.dark .plan-note {
+  color: var(--dark-text);
+}
+
+.footer-card {
+  background: var(--light);
+  border-radius: 16px;
+  padding: 2.2rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(1, 109, 156, 0.12);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: 1.8rem;
+}
+
+.footer-brand-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--h1);
+}
+
+.footer-brand-text {
+  margin-top: 0.7rem;
+  color: #4b6a75;
+  line-height: 1.7;
+}
+
+/* Ensure tagline is legible in dark mode */
+body.dark .footer-brand-text {
+  color: var(--dark-text);
+}
+
+.footer-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--h2);
+  margin-bottom: 0.85rem;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.footer-links a {
+  color: #1f3f4a;
+  font-weight: 800;
+}
+
+.footer-links a:hover {
+  color: var(--h1);
+}
+
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.footer-pill {
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(211, 234, 238, 0.75);
+  border: 1px solid rgba(55, 149, 187, 0.25);
+  color: var(--h1);
+  font-weight: 900;
+  font-size: 0.9rem;
+
+  /* Smooth transitions for interactive effects */
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect for social pills */
+.footer-pill:hover {
+  background: rgba(55, 149, 187, 0.18);
+  border-color: rgba(55, 149, 187, 0.45);
+  color: var(--h2);
+  transform: translateY(-2px);
+}
+
+/* Dark mode hover effect for social pills */
+body.dark .footer-pill:hover {
+  background: rgba(87, 167, 201, 0.3);
+  border-color: rgba(87, 167, 201, 0.5);
+  color: var(--dark-bg);
+}
+
+.footer-muted {
+  color: #4b6a75;
+  margin-bottom: 0.9rem;
+}
+
+.newsletter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+}
+
+.newsletter input {
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(1, 109, 156, 0.18);
+  background: rgba(211, 234, 238, 0.35);
+  outline: none;
+}
+
+.newsletter button {
+  padding: 0.85rem 1.1rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--h1);
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.newsletter button:hover {
+  background: var(--h2);
+}
+
+/* Newsletter success message */
+.newsletter-success {
+  margin-top: 0.6rem;
+  font-weight: 800;
+  color: var(--h2);
+}
+
+body.dark .newsletter-success {
+  color: var(--dark-accent);
+}
+
+/* Styling for links inside the exercises library note */
+.exlib-note a {
+  font-weight: 800;
+  text-decoration: underline;
+  color: var(--h1);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.exlib-note a:hover {
+  color: var(--h2);
+  text-shadow: 0 0 6px var(--h2);
+}
+
+/* Dark mode: ensure note links remain vibrant */
+body.dark .exlib-note a {
+  color: var(--dark-accent);
+}
+
+body.dark .exlib-note a:hover {
+  color: var(--dark-text);
+  text-shadow: 0 0 6px var(--dark-text);
+}
+
+/* Toast message shown when email is copied */
+.email-copy-toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(55, 149, 187, 0.9);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 800;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode toast colours */
+body.dark .email-copy-toast {
+  background: rgba(87, 167, 201, 0.9);
+  color: var(--dark-bg);
+}
+
+/* ==============================
+   Footer contact icons styling
+   ============================== */
+.footer-contact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-contact span {
+  font-weight: 800;
+  color: var(--h2);
+}
+
+.footer-contact .footer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: rgba(211, 234, 238, 0.75);
+  border: 1px solid rgba(55, 149, 187, 0.35);
+  color: var(--h1);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.footer-contact .footer-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.footer-contact .footer-icon:hover {
+  background: rgba(55, 149, 187, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Dark mode adjustments for footer icons */
+body.dark .footer-contact .footer-icon {
+  background: rgba(87, 167, 201, 0.25);
+  border-color: rgba(87, 167, 201, 0.45);
+  color: var(--dark-text);
+}
+body.dark .footer-contact .footer-icon:hover {
+  background: rgba(87, 167, 201, 0.35);
+}
+
+.footer-bottom {
+  margin-top: 1.8rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(1, 109, 156, 0.12);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  justify-content: space-between;
+  color: #4b6a75;
+  font-weight: 800;
+  font-size: 0.92rem;
+}
+
+/* Dark backgrounds for sections */
+body.dark .hero {
+  background: var(--dark-secondary);
+}
+
+/* Dark mode text grading for hero section.
+   We lighten the tagline, title, and subtitle with graded brightness
+   to improve readability on dark backgrounds. */
+body.dark .hero-tagline {
+  /* Slightly translucent white for tagline to stand out against dark background */
+  color: rgba(255, 255, 255, 0.9);
+}
+
+body.dark .hero-title {
+  /* Use pure white for maximum contrast on the main hero title */
+  color: #ffffff;
+}
+
+body.dark .hero-subtitle {
+  /* Dimmer white for the subtitle to create hierarchy */
+  color: rgba(255, 255, 255, 0.8);
+}
+
+body.dark .ebook-section,
+body.dark .online-section,
+body.dark .blog-section {
+  background: var(--dark-bg);
+}
+
+.footer-backtop {
+  color: var(--h1);
+  font-weight: 900;
+}
+
+.footer-backtop:hover {
+  color: var(--h2);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .newsletter { grid-template-columns: 1fr; }
+}
+
+/* ================= Ebook cover hover swap ================= */
+.ebook-cover{
+  display: grid;               /* بدل flex: باش نجمع الصورتين فوق بعض */
+  place-items: center;
+}
+
+.ebook-cover img{
+  grid-area: 1 / 1;            /* جوج الصور فوق بعض */
+  transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+  will-change: opacity, transform;
+}
+
+.ebook-cover .cover-front{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.ebook-cover .cover-hover{
+  opacity: 0;
+  transform: translateY(8px) scale(1.02);
+  pointer-events: none;
+}
+
+.ebook-cover:hover .cover-front{
+  opacity: 0;
+  transform: translateY(-8px) scale(.98);
+  filter: blur(1px);
+}
+
+.ebook-cover:hover .cover-hover{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: none;
+}
+
+/* Optional: خليه يبان أجمل مع hover */
+.ebook-cover:hover .cover-glow{
+  transform: translate(-50%, -50%) scale(1.6);
+}
+
+/* احترام إعدادات تقليل الحركة */
+@media (prefers-reduced-motion: reduce){
+  .ebook-cover img{
+    transition: none;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+/* ===== Dark mode switch (more obvious) ===== */
+.theme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+.theme-switch--floating{
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 2000;
+}
+
+.theme-switch input{
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.theme-slider{
+  width: 62px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(1,109,156,0.15);
+  border: 1px solid rgba(1,109,156,0.30);
+  position: relative;
+  cursor: pointer;
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease;
+  box-shadow: 0 8px 18px rgba(0,0,0,.10);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.theme-slider::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  box-shadow: 0 6px 14px rgba(0,0,0,.18);
+  transition: transform .25s ease;
+}
+
+/* icons */
+.theme-icon{
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.75;
+  transition: opacity .25s ease, transform .25s ease;
+}
+.theme-icon--moon{ transform: scale(0.95); }
+.theme-icon--sun{ transform: scale(0.95); }
+
+/* checked = dark */
+.theme-switch input:checked + .theme-slider{
+  background: rgba(1,109,156,0.95);
+  border-color: rgba(1,109,156,1);
+  box-shadow: 0 10px 22px rgba(1,109,156,.25);
+}
+
+.theme-switch input:checked + .theme-slider::before{
+  transform: translate(28px, -50%);
+}
+
+.theme-switch input:checked + .theme-slider .theme-icon--moon{
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.theme-switch input:not(:checked) + .theme-slider .theme-icon--sun{
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* keyboard focus */
+.theme-switch input:focus-visible + .theme-slider{
+  outline: 3px solid rgba(55,149,187,.35);
+  outline-offset: 3px;
+}
+
+
+
+/* ================= DARK MODE: SELECT DROPDOWN OPTIONS ================= */
+/* Fix: dropdown option text becomes invisible in dark mode (browser default option colors). */
+body.dark select,
+body.dark select option,
+body.dark select optgroup {
+  color: var(--dark-text);
+}
+
+body.dark select option,
+body.dark select optgroup {
+  background-color: var(--dark-secondary);
+}
+
+/* For better contrast on Windows/Chrome where option background can be forced */
+body.dark select option:checked,
+body.dark select option:hover {
+  background-color: rgba(87, 167, 201, 0.35);
+  color: #0c1c23;
+}
+
+
+/* ===========================
+   Exercises Library Page
+   =========================== */
+.exercises-hero {
+  padding: 140px 0 40px;
+  background: radial-gradient(circle at top, rgba(55, 149, 187, 0.18), transparent 60%),
+    linear-gradient(to bottom, rgba(1, 109, 156, 0.08), transparent 55%);
+}
+
+body.dark .exercises-hero {
+  background: radial-gradient(circle at top, rgba(87, 167, 201, 0.18), transparent 55%),
+    linear-gradient(to bottom, rgba(87, 167, 201, 0.08), transparent 55%);
+}
+
+.exercises-section {
+  padding: 40px 0 90px;
+}
+
+.exercises-controls {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.exercise-search {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(1, 109, 156, 0.22);
+  background: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-body);
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.exercise-search:focus {
+  border-color: rgba(1, 109, 156, 0.55);
+  box-shadow: 0 0 0 4px rgba(55, 149, 187, 0.16);
+}
+
+body.dark .exercise-search {
+  background: rgba(17, 45, 57, 0.75);
+  border-color: rgba(87, 167, 201, 0.25);
+  color: #eaf7fb;
+}
+
+body.dark .exercise-search::placeholder {
+  color: rgba(234, 247, 251, 0.6);
+}
+
+.muscle-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.muscle-btn {
+  border: 1px solid rgba(1, 109, 156, 0.22);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--h1);
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.muscle-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(1, 109, 156, 0.06);
+}
+
+.muscle-btn.active {
+  background: var(--h1);
+  color: #fff;
+  border-color: rgba(1, 109, 156, 0.35);
+}
+
+body.dark .muscle-btn {
+  background: rgba(17, 45, 57, 0.55);
+  border-color: rgba(87, 167, 201, 0.22);
+  color: #eaf7fb;
+}
+
+body.dark .muscle-btn:hover {
+  background: rgba(87, 167, 201, 0.10);
+}
+
+body.dark .muscle-btn.active {
+  background: var(--dark-accent);
+  color: #0c1c23;
+  border-color: rgba(87, 167, 201, 0.4);
+}
+
+.muscle-grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 980px) {
+  .muscle-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .muscle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.muscle-card {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(1, 109, 156, 0.14);
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+}
+
+body.dark .muscle-card {
+  background: rgba(22, 56, 71, 0.75);
+  border-color: rgba(87, 167, 201, 0.16);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.muscle-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.muscle-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--h1);
+  margin: 0;
+}
+
+body.dark .muscle-title {
+  color: #eaf7fb;
+}
+
+.muscle-tag {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(55, 149, 187, 0.12);
+  color: var(--h1);
+  border: 1px solid rgba(55, 149, 187, 0.18);
+}
+
+body.dark .muscle-tag {
+  background: rgba(87, 167, 201, 0.14);
+  color: rgba(234, 247, 251, 0.9);
+  border-color: rgba(87, 167, 201, 0.22);
+}
+
+.muscle-details {
+  border-top: 1px solid rgba(1, 109, 156, 0.12);
+  padding-top: 10px;
+}
+
+body.dark .muscle-details {
+  border-top-color: rgba(87, 167, 201, 0.16);
+}
+
+.muscle-details summary {
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--h1);
+  list-style: none;
+}
+
+body.dark .muscle-details summary {
+  color: rgba(234, 247, 251, 0.95);
+}
+
+.muscle-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.muscle-details summary::after {
+  content: "▾";
+  float: left;
+  color: rgba(1, 109, 156, 0.6);
+  transition: transform 0.2s ease;
+}
+
+body.dark .muscle-details summary::after {
+  color: rgba(234, 247, 251, 0.7);
+}
+
+.muscle-details[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.exercise-list {
+  margin: 10px 0 0;
+  padding: 0 18px 0 0;
+  display: grid;
+  gap: 8px;
+  color: #1b1b1b;
+}
+
+body.dark .exercise-list {
+  color: rgba(234, 247, 251, 0.92);
+}
+
+.exercises-note {
+  margin-top: 18px;
+  color: rgba(27, 27, 27, 0.75);
+  line-height: 1.8;
+}
+
+body.dark .exercises-note {
+  color: rgba(234, 247, 251, 0.75);
+}
+
+.exercises-note a {
+  color: var(--h1);
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+body.dark .exercises-note a {
+  color: var(--dark-accent);
+}
+
+/*
+ * Responsive adjustments for mobile devices
+ * These rules tweak navigation, hero, container widths and eBook cards to
+ * ensure a better experience on smaller screens.  Navigation links wrap
+ * neatly, hero content stacks vertically, and the eBook card becomes
+ * columnar.  Additional tweaks for extra small screens adjust the size
+ * of the call-to-action button and hero text.
+ */
+
+@media (max-width: 768px) {
+  /* Allow navigation wrapper and menu to wrap and center contents */
+  .nav-wrapper {
+    flex-wrap: wrap;
+  }
+  .nav-menu {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.7rem;
+  }
+  /* Containers take a bit more width on small screens */
+  .container {
+    width: 96%;
+  }
+  /* Stack hero content and center it */
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-text,
+  .hero-image {
+    flex: 1 1 100%;
+  }
+  .hero-image {
+    margin-top: 1.6rem;
+  }
+  /* eBook card: vertical layout */
+  .ebook-card {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .ebook-info,
+  .ebook-cover {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+  .ebook-cover img {
+    max-width: 70%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-btn {
+    font-size: 0.85rem;
+    padding: 0.8rem 1.4rem;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    max-width: none;
+  }
+}
+
+/*
+ * Customisations for the coaching form's offer selection section. These styles
+ * enlarge the plan icons, stack their contents vertically, and provide
+ * subtle lift and colour changes on hover or when selected. Specific rules
+ * are scoped under .offer-options to avoid altering other plan icons on the
+ * site.
+ */
+.offer-options .plan-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 1.1rem;
+  min-width: 7.5rem;
+  max-width: 9rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.offer-options .plan-icon .icon-circle {
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(55, 149, 187, 0.25);
+}
+
+.offer-options .plan-icon .plan-label {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+}
+
+.offer-options .plan-icon:hover,
+.offer-options .plan-icon.selected {
+  transform: translateY(-4px);
+  background: rgba(55, 149, 187, 0.12);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .offer-options .plan-icon {
+  background: var(--dark-secondary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .offer-options .plan-icon:hover,
+body.dark .offer-options .plan-icon.selected {
+  background: var(--dark-accent);
+  color: var(--dark-bg);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+/*
+ * Legal modal overlay and content styling
+ * These classes ensure that when a user clicks on “شروط الخدمة” أو “سياسة الخصوصية”
+ * the detailed terms or privacy policy are presented in a polished modal dialog.
+ * The modal is centered with a semi-transparent backdrop and supports dark mode.  
+ */
+.legal-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 9998;
+  display: none; /* Hidden by default; toggled via JS */
+  align-items: center;
+  justify-content: center;
+}
+
+.legal-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border-radius: 12px;
+  max-width: 800px;
+  width: calc(100% - 2rem);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  display: none; /* Hidden by default; toggled via JS */
+}
+
+body.dark .legal-modal {
+  background: var(--dark-elevated, #1f2e35);
+  color: var(--dark-text);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.legal-modal-content {
+  position: relative;
+}
+
+.legal-modal-content h3 {
+  margin-top: 0;
+  font-size: 1.6rem;
+  color: var(--accent);
+}
+
+body.dark .legal-modal-content h3 {
+  color: var(--dark-accent);
+}
+
+.legal-modal-content p {
+  line-height: 1.7;
+  margin-bottom: 0.8rem;
+  color: #1f3f4a;
+}
+
+body.dark .legal-modal-content p {
+  color: var(--dark-text);
+}
+
+.legal-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.8rem;
+  color: #999;
+  cursor: pointer;
+}
+
+body.dark .legal-close {
+  color: var(--dark-accent);
+}
+
+/*
+ * -----------------------------------------------------------------------
+ * Responsive enhancements
+ *
+ * The following media query introduces a series of layout and typographic
+ * adjustments targeted at small screens. When the viewport width falls
+ * below 768px (roughly tablet and phone sizes) the site previously
+ * experienced horizontal scrolling, oversized icons and text, and an
+ * overall cramped feel. These rules address those issues by reducing
+ * font sizes and padding on navigation links, stacking complex layouts
+ * vertically, and ensuring interactive elements remain comfortably
+ * tappable on touch devices. A few key highlights include:
+ *
+ *  • Preventing horizontal overflow on the body and html elements.
+ *  • Allowing the navigation menu to scroll horizontally while keeping
+ *    links smaller and spacing tighter.
+ *  • Converting multi‑column hero and ebook sections into single‑column
+ *    stacks for better readability on narrow screens.
+ *  • Scaling down buttons, icons and progress indicators without
+ *    sacrificing usability.
+ */
+@media (max-width: 768px) {
+  /* Avoid horizontal scrolling on small devices */
+  html, body {
+    overflow-x: hidden;
+  }
+
+  /* Header layout: allow items to wrap and tighten spacing */
+  .nav-wrapper {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Logo: slightly smaller on mobile */
+  .logo {
+    font-size: 1.1rem;
+  }
+
+  /* Navigation menu: prevent it from forcing the page wider by
+     enabling horizontal scroll and reducing whitespace */
+  .nav-menu {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 0.4rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.8rem;
+  }
+
+  /* Hero section: stack image below text and center content */
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  .hero-text,
+  .hero-image {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-btn,
+  .ghost-btn {
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
+  }
+
+  /* Ebook card: stack info and cover vertically for better flow */
+  .ebook-card {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .ebook-info,
+  .ebook-cover {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+  .ebook-badges {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .ebook-cover img {
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  /* Progress indicators: smaller circles on mobile */
+  .progress-step {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  /* Theme switch sizing */
+  .theme-switch .theme-slider {
+    width: 42px;
+    height: 20px;
+  }
+  .theme-icon {
+    font-size: 14px;
+  }
+}
+
+/* ===== Ebook Price Styling ===== */
+.ebook-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.ebook-price span {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--h2);
+}
+
+.ebook-price small {
+  font-size: 1rem;
+  color: var(--h1);
+  margin-right: 0.25rem;
+}
+
+.ebook-price:hover {
+  transform: scale(1.05);
+}
+
+/* Dark mode overrides for ebook price */
+body.dark .ebook-price span {
+  color: var(--dark-accent);
+}
+
+body.dark .ebook-price small {
+  color: var(--dark-text);
+}
+
+/* Responsive adjustments for ebook price */
+@media (max-width: 600px) {
+  .ebook-price {
+    justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+  .ebook-price span {
+    font-size: 1.6rem;
+  }
+}
+
