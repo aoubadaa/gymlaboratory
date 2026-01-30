@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GYM LABORATORY – شنو هو أحسن تمرين للبطن؟  </title>
+    <title>GYM LABORATORY – شنو هو أحسن تمرين للبطن؟ </title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,6 +13,24 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Mobile fix (blog7): remove the desktop max-height cap and prevent overflow for ALL images inside the article on mobile -->
+    <style>
+      @media (max-width: 600px) {
+        /* Any image inside the article should be responsive on mobile */
+        .article-body img {
+          width: 100%;
+          max-width: 100%;
+          height: auto;
+          max-height: none;
+        }
+
+        /* Optional: avoid awkward side gaps on very small screens */
+        .article-figure {
+          margin-inline: 0;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="top"></div>
@@ -24,8 +42,8 @@
           <a href="index.html#home" class="nav-link">الرئيسية</a>
           <a href="index.html#ebook" class="nav-link">كتاب</a>
           <a href="index.html#online" class="nav-link">التدريب</a>
-                    <a href="exercises.html" class="nav-link">مكتبة التمارين</a>
-<!-- Link to BMR calculator -->
+          <a href="exercises.html" class="nav-link">مكتبة التمارين</a>
+          <!-- Link to BMR calculator -->
           <a href="index.html#bmr" class="nav-link">حاسبة&nbsp;السعرات</a>
           <a href="blog.html" class="nav-link active" aria-current="page">مدونة</a>
           <a href="index.html#free-guides" class="nav-link">كتب مجانية</a>
@@ -39,36 +57,53 @@
         </label>
       </div>
     </header>
+
     <!-- Article content -->
     <section class="article-section">
       <div class="container">
         <div class="article-container">
-          <h1 class="article-title">شنو هو أحسن تمرين للبطن؟ </h1>
-          <img src="images/blog7.webp" alt="شنو هو أحسن تمرين للبطن؟ (الجواب: كرنش صحيح)" class="article-image" />
+          <h1 class="article-title">شنو هو أحسن تمرين للبطن؟</h1>
+
+          <img
+            src="images/blog7.webp"
+            alt="شنو هو أحسن تمرين للبطن؟ (الجواب: كرنش صحيح)"
+            class="article-image"
+          />
+
           <div class="article-body">
             <p>
-              سؤال كيتعاود بزاف: شنو هو أحسن تمرين للبطن؟
-              الجواب ماشي “تمرين سحري” واحد… بل كيفاش كتخدم البطن فكل تكرار.
+              سؤال كيتعاود بزاف: شنو هو أحسن تمرين للبطن؟ الجواب ماشي “تمرين سحري”
+              واحد… بل كيفاش كتخدم البطن فكل تكرار.
             </p>
 
             <p>
-              أحسن تمرين للبطن هو أي تمرين كيخدم <b>ثني الجذع</b> (<span lang="en">Trunk Flexion</span>): يعني كتثني العمود الفقري وكتقرّب القفص الصدري للحوض.
-              أما إلا كان التمرين كيركّز بزاف على <b>ثني الورك</b> (<span lang="en">Hip Flexion</span>)، غالباً اللي كيتعب أكثر هو الفخذ/الهيب فليكسر ماشي البطن.
+              أحسن تمرين للبطن هو أي تمرين كيخدم <b>ثني الجذع</b>
+              (<span lang="en">Trunk Flexion</span>): يعني كتثني العمود الفقري وكتقرّب
+              القفص الصدري للحوض. أما إلا كان التمرين كيركّز بزاف على <b>ثني الورك</b>
+              (<span lang="en">Hip Flexion</span>)، غالباً اللي كيتعب أكثر هو الفخذ/الهيب
+              فليكسر ماشي البطن.
             </p>
 
-            <figure>
-              <img src="images/blog7-trunk-flexion.webp" alt="Trunk Flexion – ثني الجذع" loading="lazy" />
+            <figure class="article-figure">
+              <img
+                class="article-image"
+                src="images/blog7-trunk-flexion.webp"
+                alt="Trunk Flexion – ثني الجذع"
+                loading="lazy"
+              />
               <figcaption>
-                Trunk Flexion = ثني الجذع: كتقرّب القفص الصدري للحوض عبر ثني العمود الفقري (ماشي جرّ بالورك).
+                Trunk Flexion = ثني الجذع: كتقرّب القفص الصدري للحوض عبر ثني العمود الفقري
+                (ماشي جرّ بالورك).
               </figcaption>
             </figure>
 
             <h2>وظيفة البطن باختصار</h2>
             <p>
-              عضلات البطن (خصوصاً <span lang="en">Rectus Abdominis</span>) خدمتها الأساسية هي:
+              عضلات البطن (خصوصاً <span lang="en">Rectus Abdominis</span>) خدمتها الأساسية
+              هي:
               <br />
-              ✅ تثني العمود الفقري وتشد فالقمة.
-              إذن أي تمرين كيساعدك تدير هاد الشي بتحكم… راه ممتاز.
+              ✅ تثني العمود الفقري وتشد فالقمة. إذن أي تمرين كيساعدك تدير هاد الشي
+              بتحكم… راه ممتاز.
             </p>
 
             <h2>القواعد الذهبية باش تحس بالبطن خدامة</h2>
@@ -85,23 +120,36 @@
 
             <h3>1) <span lang="en">Cable Crunch</span> (كرنش بالكابل)</h3>
             <p>
-              هاد التمرين من الأحسن حيث ساهل تزاد فالحمل وتراقب التقنية.
-              ركّز على: الصدر كيقرب للحوض… ماشي غير اليدين كينزلو.
+              هاد التمرين من الأحسن حيث ساهل تزاد فالحمل وتراقب التقنية. ركّز على: الصدر
+              كيقرب للحوض… ماشي غير اليدين كينزلو.
             </p>
-            <figure>
-              <img src="images/blog7-cable-crunch.webp" alt="Cable Crunch – كرنش بالكابل" loading="lazy" />
+
+            <figure class="article-figure">
+              <img
+                class="article-image"
+                src="images/blog7-cable-crunch.webp"
+                alt="Cable Crunch – كرنش بالكابل"
+                loading="lazy"
+              />
               <figcaption>
-                Cable Crunch: لقطة من الجانب كتبيّن الظهر كيتكور، والركب ثابتين، والحبل قريب للوجه/الصدر.
+                Cable Crunch: لقطة من الجانب كتبيّن الظهر كيتكور، والركب ثابتين، والحبل
+                قريب للوجه/الصدر.
               </figcaption>
             </figure>
 
             <h3>2) <span lang="en">Machine Crunch</span> (جهاز الكرنش)</h3>
             <p>
-              مناسب للمبتدئ حيث المسار ثابت وكيعاونك تحافظ على الحركة.
-              أهم حاجة: ما تخليش الجهاز يجرّك… شد بالبطن وحبس لحظة فالقمة.
+              مناسب للمبتدئ حيث المسار ثابت وكيعاونك تحافظ على الحركة. أهم حاجة: ما
+              تخليش الجهاز يجرّك… شد بالبطن وحبس لحظة فالقمة.
             </p>
-            <figure>
-              <img src="images/blog7-machine-crunch.webp" alt="Machine Crunch – جهاز الكرنش" loading="lazy" />
+
+            <figure class="article-figure">
+              <img
+                class="article-image"
+                src="images/blog7-machine-crunch.webp"
+                alt="Machine Crunch – جهاز الكرنش"
+                loading="lazy"
+              />
               <figcaption>
                 Machine Crunch: صورة للجهاز من الجانب مع سهم صغير كيشير لـ “ثني الجذع”.
               </figcaption>
@@ -109,11 +157,17 @@
 
             <h3>3) <span lang="en">Weighted Crunch</span> (كرنش بوزن)</h3>
             <p>
-              إلا ما عندكش كابل ولا آلة، خدم كرنش بقرص/دمبل.
-              ركّز على: مدى حركة مزيان + تحكم + شدة فالقمة.
+              إلا ما عندكش كابل ولا آلة، خدم كرنش بقرص/دمبل. ركّز على: مدى حركة مزيان +
+              تحكم + شدة فالقمة.
             </p>
-            <figure>
-              <img src="images/blog7-weighted-crunch.webp" alt="Weighted Crunch – كرنش بوزن" loading="lazy" />
+
+            <figure class="article-figure">
+              <img
+                class="article-image"
+                src="images/blog7-weighted-crunch.webp"
+                alt="Weighted Crunch – كرنش بوزن"
+                loading="lazy"
+              />
               <figcaption>
                 Weighted Crunch: كرنش على الأرض أو بنش مائل مع قرص فوق الصدر.
               </figcaption>
@@ -126,10 +180,17 @@
               <li>نصف تكرارات بلا مدى</li>
               <li>ما كاينش تقدم (نفس الوزن/نفس التكرار ديما)</li>
             </ul>
-            <figure>
-              <img src="images/blog7-common-mistakes.webp" alt="أخطاء شائعة في تمارين البطن" loading="lazy" />
+
+            <figure class="article-figure">
+              <img
+                class="article-image"
+                src="images/blog7-common-mistakes.webp"
+                alt="أخطاء شائعة في تمارين البطن"
+                loading="lazy"
+              />
               <figcaption>
-                أخطاء شائعة: التأرجح/السرعة، الهيب فليكسر خدام بزاف، مدى حركة ناقص، وماكاينش تقدم فالحمل.
+                أخطاء شائعة: التأرجح/السرعة، الهيب فليكسر خدام بزاف، مدى حركة ناقص،
+                وماكاينش تقدم فالحمل.
               </figcaption>
             </figure>
 
@@ -141,49 +202,26 @@
               <li>8–15 تكرار (وزيد تدريجياً وزن ولا تكرار)</li>
             </ul>
           </div>
+
           <a href="blog.html" class="back-to-blog">← رجوع إلى المدونة</a>
         </div>
       </div>
     </section>
+
     <!-- Footer -->
     <footer class="site-footer">
       <div class="container footer-card">
         <div class="footer-grid">
           <div class="footer-col footer-brand">
             <h3 class="footer-brand-title">GYM&nbsp;LABORATORY</h3>
-            <!-- Updated tagline -->
             <p class="footer-brand-text">Don't forget to follow us, we post daily content.</p>
 
-          <div class="footer-social">
-            <a
-              href="https://www.instagram.com/gymlaboo/"
-              class="footer-pill"
-              target="_blank"
-              rel="noopener"
-              >Instagram</a
-            >
-            <a
-              href="https://www.facebook.com/profile.php?id=61576849801264"
-              class="footer-pill"
-              target="_blank"
-              rel="noopener"
-              >Facebook</a
-            >
-            <a
-              href="https://www.tiktok.com/@gymlaboo"
-              class="footer-pill"
-              target="_blank"
-              rel="noopener"
-              >TikTok</a
-            >
-            <a
-              href="https://www.youtube.com/@gymlabo"
-              class="footer-pill"
-              target="_blank"
-              rel="noopener"
-              >YouTube</a
-            >
-          </div>
+            <div class="footer-social">
+              <a href="https://www.instagram.com/gymlaboo/" class="footer-pill" target="_blank" rel="noopener">Instagram</a>
+              <a href="https://www.facebook.com/profile.php?id=61576849801264" class="footer-pill" target="_blank" rel="noopener">Facebook</a>
+              <a href="https://www.tiktok.com/@gymlaboo" class="footer-pill" target="_blank" rel="noopener">TikTok</a>
+              <a href="https://www.youtube.com/@gymlabo" class="footer-pill" target="_blank" rel="noopener">YouTube</a>
+            </div>
           </div>
 
           <div class="footer-col">
@@ -195,7 +233,6 @@
               <li><a href="blog.html">المدونة</a></li>
               <li class="footer-contact">
                 <span>تواصل معنا:</span>
-                <!-- Make email icon copy address to clipboard instead of opening mail client -->
                 <a href="#" class="footer-icon" aria-label="Email" data-copy-email="contact.labooo@gmail.com">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20">
                     <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
@@ -209,6 +246,7 @@
               </li>
             </ul>
           </div>
+
           <div class="footer-col">
             <h4 class="footer-title">قانوني</h4>
             <ul class="footer-links">
@@ -216,27 +254,25 @@
               <li><a href="#" id="privacy-link">سياسة الخصوصية</a></li>
             </ul>
           </div>
+
           <div class="footer-col">
             <h4 class="footer-title">آخر التحديثات لبريدك</h4>
-            <!-- Updated newsletter description to encourage providing email for nutrition and exercise tips -->
             <p class="footer-muted">ادخل الايميل ديالك باش يوصلوك نصائح حول التغذية و التمرين.</p>
-            <form class="newsletter"
-                  action="https://docs.google.com/forms/d/e/1FAIpQLSf1J3YBh-Xstf0M2CuExO_WGVY75-u4iBIj2NMQHoWoRmXLrg/formResponse"
-                  method="POST"
-                  target="hidden_iframe"
-                  onsubmit="newsletterSuccess()">
-              <input type="email"
-                     name="entry.364924139"
-                     placeholder="أدخل بريدك الإلكتروني"
-                     required />
+            <form
+              class="newsletter"
+              action="https://docs.google.com/forms/d/e/1FAIpQLSf1J3YBh-Xstf0M2CuExO_WGVY75-u4iBIj2NMQHoWoRmXLrg/formResponse"
+              method="POST"
+              target="hidden_iframe"
+              onsubmit="newsletterSuccess()"
+            >
+              <input type="email" name="entry.364924139" placeholder="أدخل بريدك الإلكتروني" required />
               <button type="submit">اشترك</button>
             </form>
-            <!-- Hidden iframe prevents redirect after submission -->
-            <iframe name="hidden_iframe" style="display:none;"></iframe>
-            <!-- Success message placeholder -->
-            <p id="newsletter-success" class="newsletter-success" style="display:none;"></p>
+            <iframe name="hidden_iframe" style="display: none;"></iframe>
+            <p id="newsletter-success" class="newsletter-success" style="display: none;"></p>
           </div>
         </div>
+
         <div class="footer-bottom">
           <span>© 2026 Gym Laboratory. جميع الحقوق محفوظة.</span>
           <span class="footer-bottom-dot">•</span>
@@ -244,6 +280,7 @@
         </div>
       </div>
     </footer>
+
     <!-- Legal modal overlay and container -->
     <div class="legal-modal-overlay" id="legalOverlay" style="display: none;"></div>
     <div class="legal-modal" id="legalModal" style="display: none;">
@@ -253,8 +290,9 @@
         <div id="legalModalBody" class="legal-modal-body"></div>
       </div>
     </div>
+
     <!-- Hidden detailed legal content for Terms of Service and Privacy Policy -->
-    <div id="terms-content" style="display:none;">
+    <div id="terms-content" style="display: none;">
       <p><strong>آخر تحديث:</strong> 07 يناير 2026</p>
       <p>مرحباً بك في موقع GYM LABORATORY. باستخدامك لهذا الموقع أو أي من خدماته، فإنك تقرّ بأنك قرأت وفهمت ووافقت على هذه الشروط والأحكام.</p>
       <p><strong>1) التعريفات</strong></p>
@@ -274,7 +312,8 @@
       <p><strong>11) تحديث الشروط</strong><br />نحتفظ بحق تعديل شروط الخدمة في أي وقت. يعتبر استمرار استخدامك للموقع بعد التحديث موافقة ضمنية على الشروط الجديدة.</p>
       <p><strong>12) التواصل والدعم</strong><br />لأي استفسار أو طلب متعلق بالخدمات، يمكنك التواصل معنا عبر البريد الإلكتروني:<br />📩 contact.labooo@gmail.com<br />مدة الرد المتوقعة: من 24 إلى 72 ساعة.</p>
     </div>
-    <div id="privacy-content" style="display:none;">
+
+    <div id="privacy-content" style="display: none;">
       <p><strong>آخر تحديث:</strong> 07 يناير 2026</p>
       <p>نحن في GYM LABORATORY نحترم خصوصيتك ونلتزم بحماية بياناتك. توضح هذه السياسة ما نقوم بجمعه من معلومات وكيفية استخدامه.</p>
       <p><strong>1) المعلومات التي نجمعها</strong></p>
@@ -294,15 +333,16 @@
     <script>
       // Newsletter success handler
       function newsletterSuccess() {
-        const msgEl = document.getElementById('newsletter-success');
+        const msgEl = document.getElementById("newsletter-success");
         if (msgEl) {
-          msgEl.textContent = 'شكراً على الاشتراك!';
-          msgEl.style.display = 'block';
+          msgEl.textContent = "شكراً على الاشتراك!";
+          msgEl.style.display = "block";
           setTimeout(() => {
-            msgEl.style.display = 'none';
+            msgEl.style.display = "none";
           }, 4000);
         }
       }
+
       document.addEventListener("DOMContentLoaded", () => {
         // Theme toggle
         const toggle = document.getElementById("themeToggle");
@@ -331,7 +371,7 @@
     </script>
 
     <!-- Email copy-to-clipboard + toast -->
-    <div id="copy-toast" class="copy-toast" style="display:none;">تم نسخ الإيميل ✅</div>
+    <div id="copy-toast" class="copy-toast" style="display: none;">تم نسخ الإيميل ✅</div>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const toast = document.getElementById("copy-toast");
@@ -390,14 +430,17 @@
           document.body.style.overflow = "";
         }
 
-        if (termsLink) termsLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          openModal("terms");
-        });
-        if (privacyLink) privacyLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          openModal("privacy");
-        });
+        if (termsLink)
+          termsLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal("terms");
+          });
+
+        if (privacyLink)
+          privacyLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal("privacy");
+          });
 
         if (closeBtn) closeBtn.addEventListener("click", closeModal);
         if (overlay) overlay.addEventListener("click", closeModal);
